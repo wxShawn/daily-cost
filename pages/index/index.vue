@@ -1,15 +1,15 @@
 <template>
-	<view class="content">
-		<!-- 状态栏占位 -->
-		<view class="status-bar"></view>
+  <view class="content">
+    <!-- 状态栏占位 -->
+    <view class="status-bar"></view>
     
-		<!-- 顶栏 -->
-		<view class="top-bar">
+    <!-- 顶栏 -->
+    <view class="top-bar">
       <!-- 侧栏菜单 -->
       <side-menu />
       <!-- 日历 -->
       <image class="calendar" src="../../static/icon/calendar.svg" mode="heightFix"></image>
-		</view>
+    </view>
     
     <view class="main">
       <!-- 月份信息：月交易、月收入等 -->
@@ -37,13 +37,12 @@
       ></image>
     </navigator>
     
-	</view>
+  </view>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import SideMenu from '../../components/SideMenu.vue';
-import MonthSelector from '../../components/MonthSelector.vue';
 import MonthTradeInfo from '../../components/MonthTradeInfo.vue';
 import TodayBudget from '../../components/TodayBudget.vue';
 import TradeList from '../../components/TradeList.vue';
@@ -61,11 +60,11 @@ const todayCost = ref(30);
 /* 顶栏 */
 .top-bar {
   padding: 0 30rpx;
-	display: flex;
+  display: flex;
   justify-content: space-between;
-	align-items: center;
-	height: 100rpx;
-	background: #fff;
+  align-items: center;
+  height: 100rpx;
+  background: #fff;
 }
 
 .current-date {
