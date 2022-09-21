@@ -29,7 +29,7 @@
     </view>
     
     <!-- 添加交易按钮 -->
-    <navigator url="../addtrade/addtrade">
+    <navigator url="../addtrade/addtrade" animation-type="slide-in-bottom" animation-duration="300">
       <image
         class="add-btn"
         src="@/static/icon/plus.svg"
