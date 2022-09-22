@@ -10,9 +10,13 @@
       <!-- 状态栏占位 -->
       <view class="status-bar"></view>
       
-      <transition name="fade">
-        <view class="shadow" v-show="openMenu" @click="openMenu = false"></view>
-      </transition>
+      <view
+        class="shadow"
+        :class="openMenu ? 'show' : 'hide'"
+        v-show="showShadow"
+        @click="openMenu = false"
+      ></view>
+      
       <view class="menu">
         <view class="brand">
           <image class="logo" src="@/static/logo.png" mode="heightFix"></image>
@@ -32,18 +36,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
   
 const openMenu = ref(false);
 const menuList = [
-  { title: '我的资产', url: '../setting/setting', icon: '/static/icon/dollar.svg' },
+  { title: '我的资产', url: '../account/account', icon: '/static/icon/dollar.svg' },
   { title: '统计图表', url: '../setting/setting', icon: '/static/icon/pie-chart.svg' },
   { title: '查询账单', url: '../setting/setting', icon: '/static/icon/file-search.svg' },
   { title: '设置', url: '../setting/setting', icon: '/static/icon/setting.svg' },
 ];
+
+const showShadow = ref(false);
+watch(openMenu, (newValue) => {
+  if (newValue === true) {  // 显示时,先显示后执行动画
+    showShadow.value = newValue;
+  } else {
+    setTimeout(() => {      // 隐藏时,先执行动画后隐藏
+      showShadow.value = newValue;
+    }, 300);
+  }
+});
 </script>
 
 <style scoped>
+/* 动画 */
+.show {
+  animation: fade-in 0.3s linear forwards;
+}
+  
+.hide {
+  animation: fade-out 0.3s linear forwards;
+}
+
+/* 样式 */
 .side-menu {
   z-index: 999;
   margin-right: 30rpx;
@@ -74,16 +99,6 @@ const menuList = [
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, .3);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 
 .side > .menu {
