@@ -7,6 +7,13 @@
       }
     },
     {
+      "path": "pages/account/account",
+      "style": {
+        "navigationBarTitleText": "我的资产",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path" : "pages/setting/setting",
       "style" :                                                                                    
       {
