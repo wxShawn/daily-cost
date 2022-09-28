@@ -1,15 +1,19 @@
 <script>
-  export default {
-    onLaunch: function() {
-      console.log('App Launch')
-    },
-    onShow: function() {
-      console.log('App Show')
-    },
-    onHide: function() {
-      console.log('App Hide')
-    }
+import db from './utils/sqlite';
+
+export default {
+  onLaunch: function() {
+    console.log('App Launch')
+  },
+  onShow: function() {
+    console.log('App Show');
+    db.openDb();
+  },
+  onHide: function() {
+    console.log('App Hide');
+    db.closeDb();
   }
+}
 </script>
 
 <style>

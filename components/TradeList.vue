@@ -26,7 +26,18 @@
 
 <script setup>
 import { keepTwoDecimalStr } from '../utils/number.js';
-  
+import db from '../utils/sqlite.js';
+
+/**
+ * ********** 数据库操作 **********
+ */
+// const getTradeList = async () => {
+//   return await db.executeSql(` SELECT * FROM account INNER JOIN trade ON account.ID = trade.accountId`);
+// }
+// (async () => {
+//   const res = await getTradeList();
+//   console.log(res);
+// })()
 const tradeList = [
   {
     isIncome: false,

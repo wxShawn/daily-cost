@@ -59,16 +59,24 @@
     <view class="bottom-bar">
       <view class="form">
         <view class="main-info">
-          <image :src="trade.icon" mode="heightFix"></image>
+          <image :src="trade.iconUrl" mode="heightFix"></image>
           <input placeholder="点击输入备注" v-model="trade.remark" />
           <text :style="`color: ${currentColor}`">{{ trade.num }}</text>
         </view>
         <view class="options">
-          <view>微信</view>
-          <view>2022-08-31 08:05</view>
+          <view v-if="accountList.length > 0">
+            <picker mode="selector" @change="handleAccountChange" :value="selectedAccountIndex" :range="accountList" range-key="name">
+              <view class="uni-input">{{ accountList[selectedAccountIndex].name }}</view>
+            </picker>
+          </view>
           <view>
-            <picker :value="1" :range="['a', 'b', 'c']">
-              <view class="uni-input">test</view>
+            <picker mode="date" :value="selectedDate" @change="handleDateChange">
+              <view class="uni-input">{{ selectedDate }}</view>
+            </picker>
+          </view>
+          <view>
+            <picker mode="time" :value="selectedTime" @change="handleTimeChange">
+              <view class="uni-input">{{ selectedTime }}</view>
             </picker>
           </view>
         </view>
@@ -94,8 +102,8 @@
         </view>
         <view>
           <view @click="deleteNum">删除</view>
-          <view>再记</view>
-          <view style="flex: 1; color: #fff;" :style="`background: ${currentColor}`">保存</view>
+          <view @click="saveAndadd">再记</view>
+          <view @click="save" style="flex: 1; color: #fff;" :style="`background: ${currentColor}`">保存</view>
         </view>
       </view>
     </view>
@@ -107,8 +115,26 @@
 <script setup>
 import { computed, reactive, ref } from 'vue';
 import { costType, incomeType } from '../../utils/tradetype.js';
+import db from '../../utils/sqlite.js';
+import { toDateString, toTimeString } from '../../utils/dateFormat.js';
 
-// 切换页面
+/**
+ * ********** 数据库操作 **********
+ */
+const getAllAccount = async () => {
+  return await db.selectSql(`SELECT * FROM account`);
+}
+
+const createTrade = async (data) => {
+  let { num, isIncome, accountId, tradeAt, tradeType, iconUrl, remark } = data;
+  num = Number(num);
+  const values = `${num}, ${isIncome}, ${accountId}, '${tradeAt}', '${tradeType}', '${iconUrl}', '${remark}'`;
+  return await db.executeSql(`INSERT INTO trade (num, isIncome, accountId, tradeAt, tradeType, iconUrl, remark) values (${values})`);
+}
+
+/**
+ * ********** 切换页面 **********
+ */
 const currentPage = ref(0);
 const changePage = (pageIndex) => {
   currentPage.value = pageIndex;
@@ -138,22 +164,58 @@ const currentColor = computed(() => {
   return color;
 });
 
-// 主要功能
+/**
+ * ********** 数据 **********
+ */
+// 临时交易数据
 const trade = reactive({
   num: '0',
   isIncome: false,
-  account: '微信',
-  date: new Date('2022-08-31 08:05'),
-  type: '餐饮',
-  icon: '',
+  accountId: 1,
+  tradeAt: `${toDateString(new Date())} ${toTimeString(new Date())}`,
+  tradeType: '餐饮',
+  iconUrl: '',
   remark: '',
 });
 
 /**
  * ********** options **********
  */
-// account picker
+// 交易类型
+const handleTradeTypeClick = (tradeType) => {
+  trade.tradeType = tradeType.title;
+  trade.iconUrl = tradeType.icon;
+}
 
+// 账户列表
+const accountList = reactive([]);
+getAllAccount().then(res => {
+  accountList.push.apply(accountList, res);
+  if (res.length > 0) {
+    trade.accountId = res[0].id;
+  }
+});
+// 当前选中账户索引
+const selectedAccountIndex = ref(0);
+// 改变账户
+const handleAccountChange = (e) => {
+  selectedAccountIndex.value = e.detail.value;
+  trade.accountId = accountList[e.detail.value].id;
+}
+
+// 交易日期
+const selectedDate = ref(toDateString(new Date()));
+const handleDateChange = (e) => {
+  selectedDate.value = e.detail.value;
+  trade.date = new Date(`${selectedDate.value} ${selectedTime.value}`);
+}
+
+// 交易时间
+const selectedTime = ref(toTimeString(new Date()));
+const handleTimeChange = (e) => {
+  selectedTime.value = e.detail.value;
+  trade.date = new Date(`${selectedDate.value} ${selectedTime.value}`);
+}
 
 /**
  * ********** 虚拟键盘 **********
@@ -177,20 +239,20 @@ const deleteNum = () => {
   }
 }
 // 保存
-const save = () => {
-  
+const save = async () => {
+  console.log(trade);
+  const res = await createTrade(trade);
+  console.log(res);
+  console.log(await getTradeList());
 }
 // 再记
 const saveAndadd = () => {
   
 }
-
-
-
-const handleTradeTypeClick = (tradeType) => {
-  trade.type = tradeType.title;
-  trade.icon = tradeType.icon;
+const getTradeList = async () => {
+  return await db.selectSql(`SELECT * FROM account INNER JOIN trade ON account.id = trade.accountId`);
 }
+
 </script>
 
 <style scoped>
