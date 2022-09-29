@@ -2,16 +2,18 @@
 import db from './utils/sqlite';
 
 export default {
-  onLaunch: function() {
-    console.log('App Launch')
+  onLaunch: async function() {
+    console.log('App Launch');
+    if (!db.isOpen()) {
+      await db.openDb();
+    }
+    db.init();
   },
   onShow: function() {
     console.log('App Show');
-    db.openDb();
   },
   onHide: function() {
     console.log('App Hide');
-    db.closeDb();
   }
 }
 </script>

@@ -125,9 +125,23 @@ const getAllAccount = async () => {
   return await db.selectSql(`SELECT * FROM account`);
 }
 
+const updateAccount = async (id, newData) => {
+  const { name, fund } = newData;
+  const setOptions = `${name ? 'name = ' + name + ',' : ''}${fund ? 'fund = ' + fund : ''}`;
+  return await db.executeSql(`UPDATE account SET ${setOptions} WHERE id=${id}`);
+}
+
 const createTrade = async (data) => {
   let { num, isIncome, accountId, tradeAt, tradeType, iconUrl, remark } = data;
   num = Number(num);
+  if (num === 0) {
+    uni.showToast({
+      title: '金额不能为0',
+      icon: 'none',
+      duration: 3000
+    });
+    return false;
+  }
   const values = `${num}, ${isIncome}, ${accountId}, '${tradeAt}', '${tradeType}', '${iconUrl}', '${remark}'`;
   return await db.executeSql(`INSERT INTO trade (num, isIncome, accountId, tradeAt, tradeType, iconUrl, remark) values (${values})`);
 }
@@ -174,7 +188,7 @@ const trade = reactive({
   accountId: 1,
   tradeAt: `${toDateString(new Date())} ${toTimeString(new Date())}`,
   tradeType: '餐饮',
-  iconUrl: '',
+  iconUrl: '/static/icon/tradetype/餐饮.svg',
   remark: '',
 });
 
@@ -241,6 +255,18 @@ const deleteNum = () => {
 // 保存
 const save = async () => {
   console.log(trade);
+  const tradeNum = Number(trade.num);
+  const newFund = accountList[selectedAccountIndex.value].fund - tradeNum;
+  try{
+    await updateAccount(trade.accountId, { fund: newFund });
+  }catch(e){
+    uni.showToast({
+      title: `保存失败: ${JSON.stringify(e)}`,
+      icon: 'none',
+      duration: 5000,
+    });
+    return false;
+  }
   const res = await createTrade(trade);
   console.log(res);
   console.log(await getTradeList());

@@ -104,12 +104,16 @@ const trade = {
 
 // 初始化，创建数据表、插入默认数据
 const init = async () => {
-  console.log('是否已连接数据库', db.isOpen());
+  console.log(db.isOpen() ? '数据库已连接' : '数据库未连接');
   const res1 = await db.executeSql(`CREATE TABLE IF NOT EXISTS ${account.name}(${account.schema})`);
   const res2 = await db.executeSql(`CREATE TABLE IF NOT EXISTS ${trade.name}(${trade.schema})`);
-  // const res3 = await db.executeSql(`INSERT INTO account (name, fund) SELECT '支付宝',0 WHERE NOT EXISTS (SELECT * FROM account WHRER name='支付宝')`);
-  // const res4 = await db.executeSql(`INSERT INTO account (name, fund) SELECT '微信',0 WHERE NOT EXISTS (SELECT * FROM account WHRER name='微信')`);
+  const res3 = await db.selectSql(`SELECT * FROM account`);
+  if (res3.length === 0) {
+    await db.executeSql(`INSERT INTO account (name,fund) VALUES ('支付宝',0)`);
+    await db.executeSql(`INSERT INTO account (name,fund) VALUES ('微信',0)`);
+  }
 }
-init();
+
+db.init = init;
 
 export default db;

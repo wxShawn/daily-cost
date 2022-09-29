@@ -1,5 +1,6 @@
 <template>
   <view class="trade-list">
+    <button @click="showTrade">log trade list</button>
     <view
       class="trade"
       v-for="trade in tradeList"
@@ -31,13 +32,13 @@ import db from '../utils/sqlite.js';
 /**
  * ********** 数据库操作 **********
  */
-// const getTradeList = async () => {
-//   return await db.executeSql(` SELECT * FROM account INNER JOIN trade ON account.ID = trade.accountId`);
-// }
-// (async () => {
-//   const res = await getTradeList();
-//   console.log(res);
-// })()
+const getTradeList = async () => {
+  return await db.selectSql(` SELECT * FROM account INNER JOIN trade ON account.ID = trade.accountId`);
+}
+const showTrade = async () => {
+  const res = await getTradeList();
+  console.log(res);
+}
 const tradeList = [
   {
     isIncome: false,

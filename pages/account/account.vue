@@ -61,7 +61,7 @@ const createAccount = async (name, fund) => {
 const updateAccount = async (id, newData) => {
   const { name, fund } = newData;
   const setOptions = `${name ? 'name = ' + name + ',' : ''}${fund ? 'fund = ' + fund : ''}`;
-  return await db.executeSql(`UPDATE account SET ${setOptions}`);
+  return await db.executeSql(`UPDATE account SET ${setOptions} WHERE id=${id}`);
 }
 
 /**
