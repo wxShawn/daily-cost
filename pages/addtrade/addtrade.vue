@@ -9,7 +9,7 @@
       <view class="tab-head">
         <text @click="changePage(0)">支出</text>
         <text @click="changePage(1)">收入</text>
-        <text @click="changePage(2)">转帐</text>
+        <!-- <text @click="changePage(2)">转帐</text> -->
       </view>
       <view style="width: 40rpx;"></view>
     </view>
@@ -48,11 +48,12 @@
       </swiper-item>
       
       <!-- 转账 -->
-      <swiper-item>
+      <!-- <swiper-item style="display: flex; justify-content: center; align-items: center;">
         <view class="transfer-fund">
-           转账
+           <view style="margin-bottom: 20rpx;">转出账户</view>
+           <view>转入账户</view>
          </view>
-      </swiper-item>
+      </swiper-item> -->
     </swiper>
     
     <!-- 输入 -->
@@ -81,6 +82,7 @@
           </view>
         </view>
       </view>
+      <!-- 虚拟键盘 -->
       <view class="keyboard">
         <view>
           <view @click="inputNum('1')">1</view>
@@ -169,9 +171,9 @@ const currentColor = computed(() => {
       handleTradeTypeClick(incomeType[0]);
       trade.isIncome = true;
       break;
-    case 2:
-      color = '#3B82F6';
-      break;
+    // case 2:
+    //   color = '#3B82F6';
+    //   break;
     default:
       break;
   }
@@ -254,12 +256,35 @@ const deleteNum = () => {
 }
 // 保存
 const save = async () => {
+  await saveTrade();
+  uni.navigateBack();
+}
+// 再记
+const saveAndadd = async () => {
+  await saveTrade();
+  // 初始化数据
+  Object.assign(trade, {
+    num: '0',
+    isIncome: false,
+    accountId: 1,
+    tradeAt: `${toDateString(new Date())} ${toTimeString(new Date())}`,
+    tradeType: '餐饮',
+    iconUrl: '/static/icon/tradetype/餐饮.svg',
+    remark: '',
+  });
+}
+
+/**
+ * ********** 保存交易 **********
+ */
+const saveTrade = async () => {
   console.log(trade);
   const tradeNum = Number(trade.num);
-  const newFund = accountList[selectedAccountIndex.value].fund - tradeNum;
+  const newFund = trade.isIncome ? accountList[selectedAccountIndex.value].fund + tradeNum : accountList[selectedAccountIndex.value].fund - tradeNum;
   try{
     await updateAccount(trade.accountId, { fund: newFund });
   }catch(e){
+    console.error(e);
     uni.showToast({
       title: `保存失败: ${JSON.stringify(e)}`,
       icon: 'none',
@@ -271,10 +296,10 @@ const save = async () => {
   console.log(res);
   console.log(await getTradeList());
 }
-// 再记
-const saveAndadd = () => {
-  
-}
+
+/**
+ * 测试
+ */
 const getTradeList = async () => {
   return await db.selectSql(`SELECT * FROM account INNER JOIN trade ON account.id = trade.accountId`);
 }
@@ -299,7 +324,7 @@ const getTradeList = async () => {
 /* pages */
 .pages {
   position: relative;
-  height: calc(100vh - 100rpx - var(--status-bar-height));
+  height: calc(100vh - 100rpx - var(--status-bar-height) - 680rpx);
 }
 
 .trade-type-list {
@@ -313,6 +338,18 @@ const getTradeList = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.transfer-fund > view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400rpx;
+  height: 100rpx;
+  background: #eee;
+  border-radius: 20rpx;
+  color: #ccc;
 }
 
 /* 底部 */

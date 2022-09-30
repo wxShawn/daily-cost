@@ -24,7 +24,7 @@
       
       <!-- 交易列表 -->
       <view>
-        <trade-list />
+        <trade-list :dateStart="`${today} 00:00:00`" :dateEnd="`${today} 23:59:59`" />
       </view>
     </view>
     
@@ -46,6 +46,7 @@ import SideMenu from '../../components/SideMenu.vue';
 import MonthTradeInfo from '../../components/MonthTradeInfo.vue';
 import TodayBudget from '../../components/TodayBudget.vue';
 import TradeList from '../../components/TradeList.vue';
+import { toDateString } from "../../utils/dateFormat";
 
 // 月交易信息
 const monthCost = ref(1000.50);
@@ -54,6 +55,9 @@ const monthIncome = ref(9000);
 // 今日预算
 const todayBudget = ref(80);
 const todayCost = ref(30);
+
+// 今日日期
+const today = toDateString(new Date());
 </script>
 
 <style scoped>
