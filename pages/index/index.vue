@@ -17,9 +17,9 @@
         <month-trade-info :cost="monthCost" :income="monthIncome" />
       </view>
       
-      <!-- 今日预算（当选择日期非本月时隐藏此模块） -->
+      <!-- 今日预算 -->
       <view>
-        <today-budget :total="todayBudget" :cost="todayCost" />
+        <today-budget :cost="todayCost" />
       </view>
       
       <!-- 交易列表 -->
@@ -53,7 +53,6 @@ const monthCost = ref(1000.50);
 const monthIncome = ref(9000);
 
 // 今日预算
-const todayBudget = ref(80);
 const todayCost = ref(30);
 
 // 今日日期
