@@ -223,14 +223,14 @@ const handleAccountChange = (e) => {
 const selectedDate = ref(toDateString(new Date()));
 const handleDateChange = (e) => {
   selectedDate.value = e.detail.value;
-  trade.date = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  trade.tradeAt = new Date(`${selectedDate.value} ${selectedTime.value}`);
 }
 
 // 交易时间
 const selectedTime = ref(toTimeString(new Date()));
 const handleTimeChange = (e) => {
   selectedTime.value = e.detail.value;
-  trade.date = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  trade.tradeAt = new Date(`${selectedDate.value} ${selectedTime.value}`);
 }
 
 /**
