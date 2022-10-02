@@ -1,7 +1,7 @@
 <template>
   <view class="trade-list">
     <view class="total">
-      <view>2022-09-30</view>
+      <view>{{ dateStart.substring(0,10) }}</view>
       <view>
         <text style="margin-right: 20rpx;">收入:￥{{ total.income }}</text>
         <text>支出:￥{{ total.cost }}</text>
