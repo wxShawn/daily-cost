@@ -22,10 +22,12 @@ export default {
 /*每个页面公共css */
 page {
   font-size: 28rpx;
+	background: #F5F6F7;
 }
 .status-bar {
   height: var(--status-bar-height);
   width: 100%;
+	background: #fff;
 }
 @keyframes fade-in {
   0% {

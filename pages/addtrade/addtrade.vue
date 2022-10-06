@@ -325,6 +325,7 @@ const getTradeList = async () => {
 .pages {
   position: relative;
   height: calc(100vh - 100rpx - var(--status-bar-height) - 680rpx);
+	background: #fff;
 }
 
 .trade-type-list {
