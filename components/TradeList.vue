@@ -1,7 +1,7 @@
 <template>
   <view class="trade-list">
     <view class="total">
-      <view>{{ dateStart.substring(0,10) }}</view>
+      <view>{{ props.date }}</view>
       <view>
         <text style="margin-right: 20rpx;">收入:￥{{ total.income }}</text>
         <text>支出:￥{{ total.cost }}</text>
@@ -24,7 +24,7 @@
         <text
           class="trade-number"
           :style="`color: #${trade.isIncome ? '10B981' : 'EF4444'}`"
-        >{{ `${trade.isIncome ? '+' : '-'}${keepTwoDecimalStr(trade.num)}` }}</text>
+        >{{ `${trade.isIncome ? '+' : '-'}${trade.num.toFixed(2)}` }}</text>
         <text class="trade-account">{{ trade.accountName }}</text>
       </view>
     </view>
@@ -34,61 +34,11 @@
 
 <script setup>
 import { computed, reactive } from "vue";
-import { onShow } from '@dcloudio/uni-app';
-import { keepTwoDecimalStr } from '../utils/number.js';
 import db from '../utils/sqlite.js';
 
 const props = defineProps({
-  dateStart: String,
-  dateEnd: String
-});
-
-/**
- * ********** 数据库操作 **********
- */
-const getTradeList = async (dateStart, dateEnd) => {
-  const condition = `WHERE tradeAt BETWEEN DATETIME('${dateStart}') AND DATETIME('${dateEnd}')`;
-  const resultA = `trade.id, trade.createdAt, trade.num, trade.isIncome, trade.tradeAt, trade.tradeType, trade.iconUrl, trade.remark, trade.accountId,`;
-  const resultB = `account.name as accountName, account.fund as accountFund`;
-  return await db.selectSql(`SELECT ${resultA + resultB} FROM trade INNER JOIN account ON account.id = trade.accountId ${condition}`);
-}
-
-/**
- * ********** 数据 **********
- */
-const tradeList = reactive([
-  {
-    isIncome: false,
-    num: 10,
-    accountName: '微信',
-    tradeAt: '2022-08-31 08:05:00',
-    tradeType: '餐饮',
-    remark: '测试数据',
-  },
-  {
-    isIncome: false,
-    num: 10,
-    accountName: '微信',
-    tradeAt: '2022-08-31 12:05:00',
-    tradeType: '餐饮',
-    remark: '测试数据',
-  },
-  {
-    isIncome: true,
-    num: 100,
-    accountName: '微信',
-    tradeAt: '2022-08-31 13:25:00',
-    tradeType: '红包',
-    remark: '测试数据',
-  },
-]);
-const getLatestTradeList = async () => {
-  const res = await getTradeList(props.dateStart, props.dateEnd);
-  tradeList.length = 0;
-  tradeList.push.apply(tradeList, res);
-}
-onShow(() => {
-  getLatestTradeList();
+	date: String,
+	tradeList: Array
 });
 // 合计
 const total = computed(() => {
@@ -96,11 +46,11 @@ const total = computed(() => {
     income: 0,
     cost: 0
   };
-  for (let i = 0; i < tradeList.length; i++) {
-    if (tradeList[i].isIncome) {
-      t.income = t.income + tradeList[i].num;
+  for (let i = 0; i < props.tradeList.length; i++) {
+    if (props.tradeList[i].isIncome) {
+      t.income = t.income + props.tradeList[i].num;
     } else {
-      t.cost = t.cost + tradeList[i].num;
+      t.cost = t.cost + props.tradeList[i].num;
     }
   }
   return t;
