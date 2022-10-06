@@ -27,7 +27,15 @@
       {
         "navigationStyle": "custom"
       }
-    }
+    },
+		{
+		  "path" : "pages/calendar/calendar",
+		  "style" :                                                                                    
+		  {
+		    "navigationBarTitleText": "日历",
+		    "enablePullDownRefresh": false
+		  }
+		}
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
