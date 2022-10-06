@@ -19,7 +19,6 @@
 
 <script setup>
 import { computed } from "vue";
-import { keepTwoDecimalStr } from '../utils/number.js';
 
 const props = defineProps({
   income: Number,
@@ -27,15 +26,15 @@ const props = defineProps({
 });
 
 const cost = computed(() => {
-  return keepTwoDecimalStr(props.cost);
+	return props.cost.toFixed(2);
 });
 
 const income = computed(() => {
-  return keepTwoDecimalStr(props.income);
+	return props.income.toFixed(2);
 });
 
 const surplus = computed(() => {
-  return keepTwoDecimalStr(props.income - props.cost);
+	return (props.income - props.cost).toFixed(2);
 });
 </script>
 
