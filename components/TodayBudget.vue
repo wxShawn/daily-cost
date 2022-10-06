@@ -22,15 +22,10 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { onShow } from '@dcloudio/uni-app';
-import { keepTwoDecimalStr } from '../utils/number.js';
 import Modal from './common/Modal.vue';
 import WButton from './common/WButton.vue';
 import db from '../utils/sqlite.js';
 import { toDateString } from "../utils/dateFormat.js";
-
-// const props = defineProps({
-//   cost: Number,
-// });
 
 /**
  * ********** 数据库操作 **********
@@ -45,7 +40,7 @@ const getTodayCost = async () => {
 /**
  * ********** 预算 **********
  */
-const num = uni.getStorageSync('budget') ? uni.getStorageSync('budget') : 100
+const num = uni.getStorageSync('budget') ? Number(uni.getStorageSync('budget')) : 100
 
 // 当前预算
 const budget = ref(num);
@@ -54,7 +49,7 @@ const budget = ref(num);
 const tempBudget = ref(num);
 const setBudget = () => {
 	uni.setStorageSync('budget', tempBudget.value);
-	budget.value = tempBudget.value;
+	budget.value = Number(tempBudget.value);
 	modalFlag.value = false;
 }
 const modalFlag = ref(false);
@@ -77,12 +72,12 @@ onShow(async () => {
  */
 // 预算
 const total = computed(() => {
-  return keepTwoDecimalStr(budget.value);
+	return budget.value.toFixed(2);
 });
 
 // 剩余
 const surplus = computed(() => {
-  return keepTwoDecimalStr(budget.value - cost.value);
+	return (budget.value - cost.value).toFixed(2);
 });
 
 // 百分比
