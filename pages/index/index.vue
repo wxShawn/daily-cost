@@ -26,7 +26,7 @@
       
       <!-- 交易列表 -->
       <view>
-        <trade-list date="2022-10-06" :tradeList="todayTradeList" />
+        <trade-list :date="toDateString(new Date())" :tradeList="todayTradeList" />
       </view>
     </view>
     
