@@ -190,7 +190,7 @@ const trade = reactive({
   accountId: 1,
   tradeAt: `${toDateString(new Date())} ${toTimeString(new Date())}`,
   tradeType: '餐饮',
-  iconUrl: '/static/icon/tradetype/餐饮.svg',
+  iconUrl: '/static/icon/tradetype/canyin.svg',
   remark: '',
 });
 

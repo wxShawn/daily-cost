@@ -1,93 +1,93 @@
 export const costType = [
   {
-    icon: '/static/icon/tradetype/餐饮.svg',
+    icon: '/static/icon/tradetype/canyin.svg',
     title: '餐饮',
   },
   {
-    icon: '/static/icon/tradetype/零食.svg',
+    icon: '/static/icon/tradetype/lingshi.svg',
     title: '零食',
   },
   {
-    icon: '/static/icon/tradetype/服饰.svg',
+    icon: '/static/icon/tradetype/fushi.svg',
     title: '服饰',
   },
   {
-    icon: '/static/icon/tradetype/交通.svg',
+    icon: '/static/icon/tradetype/jiaotong.svg',
     title: '交通',
   },
   {
-    icon: '/static/icon/tradetype/医疗.svg',
+    icon: '/static/icon/tradetype/yiliao.svg',
     title: '医疗',
   },
   {
-    icon: '/static/icon/tradetype/住房.svg',
+    icon: '/static/icon/tradetype/zhufang.svg',
     title: '住房',
   },
   {
-    icon: '/static/icon/tradetype/红包.svg',
+    icon: '/static/icon/tradetype/hongbao.svg',
     title: '发红包',
   },
   {
-    icon: '/static/icon/tradetype/娱乐.svg',
+    icon: '/static/icon/tradetype/yule.svg',
     title: '娱乐',
   },
   {
-    icon: '/static/icon/tradetype/水电煤.svg',
+    icon: '/static/icon/tradetype/shuidianmei.svg',
     title: '水电煤',
   },
   {
-    icon: '/static/icon/tradetype/美妆.svg',
+    icon: '/static/icon/tradetype/meizhuang.svg',
     title: '美妆',
   },
   {
-    icon: '/static/icon/tradetype/礼物.svg',
+    icon: '/static/icon/tradetype/liwu.svg',
     title: '请客送礼',
   },
   {
-    icon: '/static/icon/tradetype/话费.svg',
+    icon: '/static/icon/tradetype/huafei.svg',
     title: '话费网费',
   },
   {
-    icon: '/static/icon/tradetype/数码.svg',
+    icon: '/static/icon/tradetype/shuma.svg',
     title: '电器数码',
   },
   {
-    icon: '/static/icon/tradetype/宠物.svg',
+    icon: '/static/icon/tradetype/chongwu.svg',
     title: '宠物',
   },
   {
-    icon: '/static/icon/tradetype/日用品.svg',
+    icon: '/static/icon/tradetype/riyongpin.svg',
     title: '日用品',
   },
   {
-    icon: '/static/icon/tradetype/烟酒.svg',
+    icon: '/static/icon/tradetype/yanjiu.svg',
     title: '烟酒',
   },
   {
-    icon: '/static/icon/tradetype/其他.svg',
+    icon: '/static/icon/tradetype/qita.svg',
     title: '其他',
   },
 ];
 
 export const incomeType = [
   {
-    icon: '/static/icon/tradetype/工资.svg',
+    icon: '/static/icon/tradetype/gongzi.svg',
     title: '工资',
   },
   {
-    icon: '/static/icon/tradetype/生活费.svg',
+    icon: '/static/icon/tradetype/shenghuofei.svg',
     title: '生活费',
   },
   {
-    icon: '/static/icon/tradetype/红包.svg',
+    icon: '/static/icon/tradetype/hongbao.svg',
     title: '收红包',
   },
   {
-    icon: '/static/icon/tradetype/兼职.svg',
+    icon: '/static/icon/tradetype/jianzhi.svg',
     title: '兼职',
   },
   {
-    icon: '/static/icon/tradetype/其他.svg',
+    icon: '/static/icon/tradetype/qita.svg',
     title: '其他',
   },
 ]
