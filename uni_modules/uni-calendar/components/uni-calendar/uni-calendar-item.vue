@@ -142,7 +142,7 @@
 		width: 8px;
 		height: 8px;
 		border-radius: 8px;
-		background-color: $uni-color-error;
+		// background-color: $uni-color-error;
 
 	}
 
@@ -158,7 +158,7 @@
 	.uni-calendar-item--isDay {
 		background-color: $uni-primary;
 		opacity: 0.8;
-		color: #fff;
+		color: #fff !important;
 	}
 
 	.uni-calendar-item--extra {
