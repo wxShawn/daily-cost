@@ -35,6 +35,14 @@
 		    "navigationBarTitleText": "日历",
 		    "enablePullDownRefresh": false
 		  }
+		},
+		{
+		  "path" : "pages/charts/charts",
+		  "style" :                                                                                    
+		  {
+		    "navigationBarTitleText": "统计图表",
+		    "enablePullDownRefresh": false
+		  }
 		}
   ],
   "globalStyle": {

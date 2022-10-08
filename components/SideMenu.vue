@@ -41,7 +41,7 @@ import { ref, watch } from 'vue';
 const openMenu = ref(false);
 const menuList = [
   { title: '我的资产', url: '../account/account', icon: '/static/icon/dollar.svg' },
-  { title: '统计图表', url: '../setting/setting', icon: '/static/icon/pie-chart.svg' },
+  { title: '统计图表', url: '../charts/charts', icon: '/static/icon/pie-chart.svg' },
   { title: '查询账单', url: '../setting/setting', icon: '/static/icon/file-search.svg' },
   { title: '设置', url: '../setting/setting', icon: '/static/icon/setting.svg' },
 ];
