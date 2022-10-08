@@ -223,14 +223,16 @@ const handleAccountChange = (e) => {
 const selectedDate = ref(toDateString(new Date()));
 const handleDateChange = (e) => {
   selectedDate.value = e.detail.value;
-  trade.tradeAt = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  const tradeDate = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  trade.tradeAt = `${toDateString(tradeDate)} ${toTimeString(tradeDate)}`;
 }
 
 // 交易时间
 const selectedTime = ref(toTimeString(new Date()));
 const handleTimeChange = (e) => {
   selectedTime.value = e.detail.value;
-  trade.tradeAt = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  const tradeDate = new Date(`${selectedDate.value} ${selectedTime.value}`);
+  trade.tradeAt = `${toDateString(tradeDate)} ${toTimeString(tradeDate)}`;
 }
 
 /**
@@ -278,7 +280,6 @@ const saveAndadd = async () => {
  * ********** 保存交易 **********
  */
 const saveTrade = async () => {
-  console.log(trade);
   const tradeNum = Number(trade.num);
   const newFund = trade.isIncome ? accountList[selectedAccountIndex.value].fund + tradeNum : accountList[selectedAccountIndex.value].fund - tradeNum;
   try{
@@ -293,7 +294,6 @@ const saveTrade = async () => {
     return false;
   }
   const res = await createTrade(trade);
-  console.log(res);
   console.log(await getTradeList());
 }
 
