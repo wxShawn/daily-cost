@@ -42,6 +42,7 @@
             class="trade-type"
             v-for="item in incomeType"
             :key="item"
+            @click="handleTradeTypeClick(item)"
           >
             <image style="height: 40rpx;" :src="item.icon" mode="heightFix"></image>
             <text style="font-size: 24rpx;">{{ item.title }}</text>
@@ -280,7 +281,7 @@ const saveAndadd = async () => {
     accountId: 1,
     tradeAt: `${toDateString(new Date())} ${toTimeString(new Date())}`,
     tradeType: '餐饮',
-    iconUrl: '/static/icon/tradetype/餐饮.svg',
+    iconUrl: '/static/icon/tradetype/canyin.svg',
     remark: '',
   });
 }
