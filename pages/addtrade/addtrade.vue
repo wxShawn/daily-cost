@@ -5,13 +5,15 @@
     
     <!-- 顶栏 -->
     <view class="top-bar">
-      <view style="width: 40rpx;"></view>
+      <view style="width: 60rpx; display: flex; align-items: center;">
+        <image @click="handleClose" style="height: 60rpx;" src="@/static/icon/close.svg" mode="heightFix" />
+      </view>
       <view class="tab-head">
-        <text @click="changePage(0)">支出</text>
-        <text @click="changePage(1)">收入</text>
+        <text :class="{active: currentPage === 0}" @click="changePage(0)">支出</text>
+        <text :class="{active: currentPage === 1}" @click="changePage(1)">收入</text>
         <!-- <text @click="changePage(2)">转帐</text> -->
       </view>
-      <view style="width: 40rpx;"></view>
+      <view style="width: 60rpx;"></view>
     </view>
     
     <swiper class="pages" :current="currentPage" :duration="200" @change="handleSwiperChange($event)">
@@ -146,6 +148,13 @@ const createTrade = async (data) => {
   }
   const values = `${num}, ${isIncome}, ${accountId}, '${tradeAt}', '${tradeType}', '${iconUrl}', '${remark}'`;
   return await db.executeSql(`INSERT INTO trade (num, isIncome, accountId, tradeAt, tradeType, iconUrl, remark) values (${values})`);
+}
+
+/**
+ * ********** 返回上级页面 **********
+ */
+const handleClose = () => {
+  uni.navigateBack();
 }
 
 /**
@@ -314,18 +323,24 @@ const getTradeList = async () => {
   justify-content: space-between;
   align-items: center;
   height: 100rpx;
-  background: #eee;
+  background: #fff;
 }
 
 .tab-head > text {
   margin: 0 30rpx;
+  font-weight: bold;
+  color: #aaa;
+}
+
+.tab-head > text.active {
+  color: #000;
 }
 
 /* pages */
 .pages {
   position: relative;
   height: calc(100vh - 100rpx - var(--status-bar-height) - 680rpx);
-	background: #fff;
+	background: #f5f5f5;
 }
 
 .trade-type-list {
