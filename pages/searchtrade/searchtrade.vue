@@ -4,36 +4,14 @@
       <input type="text" v-model="remark">
       <image src="@/static/icon/search.svg" mode="heightFix" @click="search"></image>
     </view>
-    <view class="trade-list">
-      <view
-        class="trade"
-        v-for="trade in result"
-        :key="trade"
-      >
-        <view class="point" :style="`background: #${trade.isIncome ? '10B981' : 'EF4444'}`"></view>
-        <view class="left-content">
-          <view class="trade-type">{{ trade.tradeType }}</view>
-          <view style="color: #aaa;">
-            <text class="trade-time">{{ trade.tradeAt }}</text>
-            <text class="trade-remark">{{ trade.remark }}</text>
-          </view>
-        </view>
-        <view class="right-content">
-          <text
-            class="trade-number"
-            :style="`color: #${trade.isIncome ? '10B981' : 'EF4444'}`"
-          >{{ `${trade.isIncome ? '+' : '-'}${trade.num.toFixed(2)}` }}</text>
-          <text class="trade-account">{{ trade.accountName }}</text>
-        </view>
-      </view>
-      <view v-if="result.length === 0" style="color: #aaa; text-align: center;">无结果</view>
-    </view>
+    <trade-list title="查询结果" :tradeList="result" :showFullDate="true" />
   </view>
 </template>
 
 <script setup>
 import { reactive, ref } from "vue";
 import db from '../../utils/sqlite.js';
+import TradeList from '../../components/TradeList.vue';
 
 /**
  * ********** 数据库操作 **********
@@ -65,14 +43,17 @@ const search = async () => {
   padding: 24rpx;
 }
 
+.container > view {
+  padding: 24rpx;
+  border-radius: 18rpx;
+  background: #fff;
+}
+
 .form {
   position: relative;
   display: flex;
   align-items: center;
   margin-bottom: 24rpx;
-  padding: 24rpx;
-  background: #fff;
-  border-radius: 20rpx;
 }
 
 .form > input {
@@ -87,56 +68,5 @@ const search = async () => {
   position: absolute;
   right: 26rpx;
   height: 60rpx;
-}
-
-.trade-list {
-  padding: 24rpx;
-  background: #fff;
-  border-radius: 20rpx;
-}
-
-.trade {
-  display: flex;
-  align-items: center;
-  padding: 10rpx 0;
-}
-
-.point {
-  margin-right: 20rpx;
-  height: 8rpx;
-  width: 8rpx;
-  border-radius: 50%;
-  background: #10B981;
-}
-
-.left-content {
-  flex: 1;
-  margin-right: 20rpx;
-}
-
-.trade-time {
-  margin-right: 10rpx;
-}
-
-.trade-remark {
-  
-}
-
-.right-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.trade-number {
-  font-size: 34rpx;
-}
-
-.trade-account {
-  padding: 2rpx;
-  border: 1px solid #aaa;
-  border-radius: 10rpx;
-  font-size: 18rpx;
-  color: #aaa;
 }
 </style>
