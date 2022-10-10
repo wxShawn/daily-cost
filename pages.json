@@ -43,7 +43,15 @@
 		    "navigationBarTitleText": "统计图表",
 		    "enablePullDownRefresh": false
 		  }
-		}
+		},
+    {
+      "path" : "pages/searchtrade/searchtrade",
+      "style" :                                                                                    
+      {
+        "navigationBarTitleText": "查询账单",
+        "enablePullDownRefresh": false
+      }
+    }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
