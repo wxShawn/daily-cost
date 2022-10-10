@@ -11,6 +11,7 @@
       class="trade"
       v-for="trade in tradeList"
       :key="trade"
+      @click="handleTradeClick(trade)"
     >
       <view class="point" :style="`background: #${trade.isIncome ? '10B981' : 'EF4444'}`"></view>
       <view class="left-content">
@@ -28,13 +29,45 @@
         <text class="trade-account">{{ trade.accountName }}</text>
       </view>
     </view>
+    
     <view v-if="tradeList.length === 0" style="color: #aaa; text-align: center;">暂无记录</view>
+    
+    <modal :showModal="showTradeDetail" @close="showTradeDetail = false">
+      <view style="margin-bottom: 20rpx;">
+        <view
+          style="font-weight: bold; font-size: 36rpx;"
+          :style="{ color: currentTrade.isIncome ? '#34D399' : '#EF4444' }"
+        >{{ currentTrade.isIncome ? '收入' : '支出' }}</view>
+      </view>
+      <view style="width: 500rpx; line-height: 50rpx; color: #888;">
+        <view>交易金额：{{ currentTrade.num }}元</view>
+        <view>交易类别：{{ currentTrade.tradeType }}</view>
+        <view>交易账户：{{ currentTrade.accountName }}</view>
+        <view>交易日期：{{ currentTrade.tradeAt }}</view>
+        <view>创建日期：{{ currentTrade.createdAt }}</view>
+        <view>备注：{{ currentTrade.remark }}</view>
+      </view>
+      <view style="display: flex; justify-content: end; margin-top: 20rpx;">
+        <w-button style="margin-right: 20rpx;" @click="showTradeDetail = false">返回</w-button>
+        <w-button type="danger" @click="handleDeleteClick">删除</w-button>
+      </view>
+    </modal>
   </view>
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, ref, reactive, toRefs } from "vue";
 import db from '../utils/sqlite.js';
+import Modal from './common/Modal.vue';
+import WButton from './common/WButton.vue';
+
+/**
+ * ********** 数据库操作 **********
+ */
+const deleteTrade = async (id) => {
+  return await db.executeSql(`DELETE FROM trade WHERE id=${id}`);
+}
+
 
 const props = defineProps({
 	title: {
@@ -47,6 +80,8 @@ const props = defineProps({
     default: false
   }
 });
+const { tradeList } = toRefs(props);
+
 // 合计
 const total = computed(() => {
   const t = {
@@ -66,6 +101,36 @@ const total = computed(() => {
 // 获取 '时:分' 字符串
 const getTimeStr = (str) => {
   return str.substr(10, 6);
+}
+
+/**
+ * ********** 交易详情 modal **********
+ */
+const showTradeDetail = ref(false);
+const currentTrade = ref({});
+const handleTradeClick = (trade) => {
+  console.log(trade);
+  currentTrade.value = trade;
+  showTradeDetail.value = true;
+}
+const handleDeleteClick = () => {
+  uni.showModal({
+    title: '删除',
+    content: '此操作不可逆，是否确认删除！',
+    async success(res) {
+      if (res.confirm) {
+        await deleteTrade(currentTrade.value.id);
+        for (let i = 0, len = tradeList.value.length; i < len; i++) {
+          if (tradeList.value[i].id === currentTrade.value.id) {
+            tradeList.value.splice(i, 1);
+            break;
+          }
+        }
+        console.log('删除成功');
+        showTradeDetail.value = false;
+      }
+    }
+  });
 }
 </script>
 
