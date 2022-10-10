@@ -1,7 +1,7 @@
 <template>
   <view class="trade-list">
     <view class="total">
-      <view>{{ props.date }}</view>
+      <view>{{ props.title }}</view>
       <view>
         <text style="margin-right: 20rpx;">收入:￥{{ total.income }}</text>
         <text>支出:￥{{ total.cost }}</text>
@@ -16,7 +16,7 @@
       <view class="left-content">
         <view class="trade-type">{{ trade.tradeType }}</view>
         <view style="color: #aaa;">
-          <text class="trade-time">{{ getTimeStr(trade.tradeAt) }}</text>
+          <text class="trade-time">{{ props.showFullDate ? trade.tradeAt : getTimeStr(trade.tradeAt) }}</text>
           <text class="trade-remark">{{ trade.remark }}</text>
         </view>
       </view>
@@ -37,8 +37,15 @@ import { computed, reactive } from "vue";
 import db from '../utils/sqlite.js';
 
 const props = defineProps({
-	date: String,
-	tradeList: Array
+	title: {
+    type: String,
+    default: ''
+  },
+	tradeList: Array,
+  showFullDate: {
+    type: Boolean,
+    default: false
+  }
 });
 // 合计
 const total = computed(() => {

@@ -26,7 +26,7 @@
       
       <!-- 交易列表 -->
       <view>
-        <trade-list :date="toDateString(new Date())" :tradeList="todayTradeList" />
+        <trade-list :title="toDateString(new Date())" :tradeList="todayTradeList" />
       </view>
     </view>
     

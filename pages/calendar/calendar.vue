@@ -13,7 +13,7 @@
         <month-trade-info :income="monthIncome" :cost="monthCost" />
       </view>
       <view>
-        <trade-list :date="selectDate" :tradeList="todayTradeList" />
+        <trade-list :title="selectDate" :tradeList="todayTradeList" />
       </view>
     </view>
   </view>
