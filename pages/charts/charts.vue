@@ -195,6 +195,7 @@ getCostNumChartData(7);
 .charts-box > .title {
   display: flex;
   align-items: center;
+  margin-bottom: 20rpx;
   font-weight: bold;
 }
 
