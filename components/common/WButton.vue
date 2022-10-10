@@ -27,4 +27,14 @@ const props = defineProps({
 	background: #34D399;
 	color: #fff;
 }
+
+.danger {
+  background: #EF4444;
+  color: #fff;
+}
+
+.warning {
+  background: #FBBF24;
+  color: #fff;
+}
 </style>
